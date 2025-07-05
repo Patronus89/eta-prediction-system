@@ -1,0 +1,29 @@
+groups:
+  - name: eta_prediction_alerts
+    rules:
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, eta_prediction_duration_seconds_bucket) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ETA prediction latency is high"
+          description: "95th percentile latency is {{ $value }}s"
+      
+      - alert: HighErrorRate
+        expr: rate(eta_prediction_errors_total[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate in ETA predictions"
+          description: "Error rate is {{ $value }} errors/sec"
+      
+      - alert: ModelAccuracyDrift
+        expr: model_accuracy_score < 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Model accuracy has dropped"
+          description: "Current accuracy is {{ $value }}"

@@ -1,0 +1,55 @@
+{
+    "dashboard": {
+      "title": "ETA Prediction System",
+      "panels": [
+        {
+          "title": "Request Rate",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(eta_predictions_total[5m])",
+              "legendFormat": "Requests/sec"
+            }
+          ]
+        },
+        {
+          "title": "Latency Distribution",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, eta_prediction_duration_seconds_bucket)",
+              "legendFormat": "P95 Latency"
+            },
+            {
+              "expr": "histogram_quantile(0.99, eta_prediction_duration_seconds_bucket)",
+              "legendFormat": "P99 Latency"
+            }
+          ]
+        },
+        {
+          "title": "Error Rate",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(eta_prediction_errors_total[5m])",
+              "legendFormat": "Errors/sec"
+            }
+          ]
+        },
+        {
+          "title": "System Resources",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "memory_usage_bytes",
+              "legendFormat": "Memory Usage"
+            },
+            {
+              "expr": "cpu_usage_percent",
+              "legendFormat": "CPU Usage %"
+            }
+          ]
+        }
+      ]
+    }
+  }

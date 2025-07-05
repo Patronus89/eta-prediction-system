@@ -1,0 +1,18 @@
+model:
+  inference_timeout_ms: 50
+  model_type: "lightgbm"
+  feature_cache_ttl: 300
+  
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  
+cache:
+  redis_host: "localhost"
+  redis_port: 6379
+  cache_ttl: 600
+  
+monitoring:
+  metrics_port: 9090
+  log_level: "INFO"
