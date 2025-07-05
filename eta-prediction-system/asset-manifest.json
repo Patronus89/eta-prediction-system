@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/eta-prediction-system/static/css/main.c7421fc2.css",
+    "main.js": "/eta-prediction-system/static/js/main.50eca394.js",
+    "index.html": "/eta-prediction-system/index.html",
+    "main.c7421fc2.css.map": "/eta-prediction-system/static/css/main.c7421fc2.css.map",
+    "main.50eca394.js.map": "/eta-prediction-system/static/js/main.50eca394.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c7421fc2.css",
+    "static/js/main.50eca394.js"
+  ]
+}
