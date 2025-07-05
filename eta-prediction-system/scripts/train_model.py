@@ -1,11 +1,13 @@
+import sys
+import os
+# Add the project root to Python path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
+
 import pandas as pd
 import numpy as np
 from src.ml.models import ETAPredictor
-from src.ml.pipeline import DataPipeline
-from src.ml.features import FeatureEngine
 import argparse
-import yaml
-import logging
 
 def generate_synthetic_data(n_samples: int = 10000) -> pd.DataFrame:
     """Generate synthetic training data"""
@@ -38,14 +40,12 @@ def generate_synthetic_data(n_samples: int = 10000) -> pd.DataFrame:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', default='config/config.yaml')
     parser.add_argument('--model-type', default='lightgbm')
     parser.add_argument('--output-dir', default='models/artifacts')
     args = parser.parse_args()
     
-    # Load config
-    with open(args.config, 'r') as f:
-        config = yaml.safe_load(f)
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
     
     # Generate training data
     print("Generating synthetic training data...")
@@ -60,10 +60,6 @@ def main():
     X = df[feature_cols]
     y = df['eta_seconds']
     
-    # Initialize pipeline and fit scaler
-    pipeline = DataPipeline()
-    pipeline.fit_scaler(X)
-    
     # Train model
     print(f"Training {args.model_type} model...")
     model = ETAPredictor(model_type=args.model_type)
@@ -75,11 +71,9 @@ def main():
     print(f"  Accuracy: {metrics['accuracy']:.2f}%")
     print(f"  Training Time: {metrics['training_time']:.2f} seconds")
     
-    # Save model and pipeline
+    # Save model
     model.save_model(f"{args.output_dir}/eta_model.pkl")
-    pipeline.save_pipeline(f"{args.output_dir}/pipeline.pkl")
-    
-    print(f"Model saved to {args.output_dir}/")
+    print(f"Model saved to {args.output_dir}/eta_model.pkl")
 
 if __name__ == "__main__":
     main()

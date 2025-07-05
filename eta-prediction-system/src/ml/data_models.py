@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
 class LocationPoint(BaseModel):
@@ -9,7 +9,7 @@ class LocationPoint(BaseModel):
 class ETARequest(BaseModel):
     origin: LocationPoint
     destination: LocationPoint
-    vehicle_type: str = Field(..., regex="^(car|bike|truck)$")
+    vehicle_type: str = Field(..., pattern="^(car|bike|truck)$")
     departure_time: Optional[datetime] = None
     route_preferences: Optional[str] = "fastest"
 
